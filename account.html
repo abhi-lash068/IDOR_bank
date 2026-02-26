@@ -1,44 +1,44 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Account Details</title>
+<title>Account Overview</title>
 <style>
 body {
     margin:0;
-    font-family: Arial, sans-serif;
-    background:#f4f6f9;
+    font-family:'Segoe UI', sans-serif;
+    background:#eef2f7;
 }
 .header {
-    background:#1e3a8a;
+    background: linear-gradient(135deg,#1e3a8a,#2563eb);
     color:white;
-    padding:15px 30px;
+    padding:20px;
     font-size:20px;
 }
 .container {
-    padding:30px;
+    padding:20px;
 }
 .card {
     background:white;
     padding:20px;
-    border-radius:10px;
-    box-shadow:0 4px 10px rgba(0,0,0,0.1);
+    border-radius:15px;
+    box-shadow:0 6px 15px rgba(0,0,0,0.1);
 }
 .balance {
-    font-size:22px;
+    font-size:26px;
     font-weight:bold;
+    margin-top:10px;
 }
 </style>
 </head>
 <body>
 
 <div class="header">
-    🏦 SecureBank Online
+    🏦 SecureBank – Account Overview
 </div>
 
 <div class="container">
     <div class="card">
-        <h2>Account Overview</h2>
-        <p id="accountInfo"></p>
+        <div id="accountInfo"></div>
     </div>
 </div>
 
@@ -51,27 +51,20 @@ const id = params.get("id");
 const hiddenAdminFlag = "VllVR0FNe2lkb3JfZXhwb3NlZH0=";
 
 const accounts = {
-    "101": {
-        name: "User101",
-        balance: "₹45,000"
-    },
-    "102": {
-        name: "User102",
-        balance: "₹12,500"
-    }
+    "101": { name:"User101", balance:"₹45,000" },
+    "102": { name:"User102", balance:"₹12,500" }
 };
 
-// IDOR vulnerability (no ownership check)
 if(id === "100"){
     document.getElementById("accountInfo").innerHTML =
-        "<p>Name: Admin</p>" +
-        "<p class='balance'>Balance: ₹10,00,000</p>" +
-        "<p style='color:red;'>Flag: " + atob(hiddenAdminFlag) + "</p>";
+        "<h3>Admin Account</h3>" +
+        "<div class='balance'>₹10,00,000</div>" +
+        "<p style='color:red;margin-top:15px;'>Flag: " + atob(hiddenAdminFlag) + "</p>";
 }
 else if(accounts[id]){
     document.getElementById("accountInfo").innerHTML =
-        "<p>Name: " + accounts[id].name + "</p>" +
-        "<p class='balance'>Balance: " + accounts[id].balance + "</p>";
+        "<h3>" + accounts[id].name + "</h3>" +
+        "<div class='balance'>" + accounts[id].balance + "</div>";
 }
 else{
     document.getElementById("accountInfo").innerHTML =
