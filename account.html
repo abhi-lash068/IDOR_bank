@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Account Details</title>
+<style>
+body {
+    margin:0;
+    font-family: Arial, sans-serif;
+    background:#f4f6f9;
+}
+.header {
+    background:#1e3a8a;
+    color:white;
+    padding:15px 30px;
+    font-size:20px;
+}
+.container {
+    padding:30px;
+}
+.card {
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.1);
+}
+.balance {
+    font-size:22px;
+    font-weight:bold;
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+    🏦 SecureBank Online
+</div>
+
+<div class="container">
+    <div class="card">
+        <h2>Account Overview</h2>
+        <p id="accountInfo"></p>
+    </div>
+</div>
+
+<script>
+
+const params = new URLSearchParams(window.location.search);
+const id = params.get("id");
+
+
+const hiddenAdminFlag = "VllVR0FNe2lkb3JfZXhwb3NlZH0=";
+
+const accounts = {
+    "101": {
+        name: "User101",
+        balance: "₹45,000"
+    },
+    "102": {
+        name: "User102",
+        balance: "₹12,500"
+    }
+};
+
+// IDOR vulnerability (no ownership check)
+if(id === "100"){
+    document.getElementById("accountInfo").innerHTML =
+        "<p>Name: Admin</p>" +
+        "<p class='balance'>Balance: ₹10,00,000</p>" +
+        "<p style='color:red;'>Flag: " + atob(hiddenAdminFlag) + "</p>";
+}
+else if(accounts[id]){
+    document.getElementById("accountInfo").innerHTML =
+        "<p>Name: " + accounts[id].name + "</p>" +
+        "<p class='balance'>Balance: " + accounts[id].balance + "</p>";
+}
+else{
+    document.getElementById("accountInfo").innerHTML =
+        "<p>Account not found.</p>";
+}
+
+</script>
+
+</body>
+</html>
